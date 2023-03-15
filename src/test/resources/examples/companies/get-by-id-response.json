@@ -1,0 +1,15 @@
+{
+  "uuid": "da23b2ac-a487-11ed-a8fc-0242ac120002",
+  "name": "COMPANY NAME",
+  "mainAddress": {
+    "uuid": "da23b2ac-a487-11ed-a8fc-0242ac120002",
+    "country": "Ukraine",
+    "city": "Cherkasy",
+    "region": "Cherkasy region",
+    "village": "Dubijiwka",
+    "zip": "18000",
+    "street": "Khreshchatyk",
+    "building": "221",
+    "apartment": "44"
+  }
+}

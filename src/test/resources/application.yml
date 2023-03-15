@@ -1,0 +1,12 @@
+services:
+  url:
+    company-manager-service: http://localhost:8090/api
+
+#spring:
+#  datasource:
+#    driver-class-name: org.postgresql.Driver
+#
+#  kafka:
+#    consumer:
+#      group-id: survey_builder_service
+#      auto-offset-reset: earliest

@@ -1,0 +1,280 @@
+openapi: 3.0.3
+
+info:
+  title: OpenAPI definition
+  version: v1
+servers:
+  - url: http://localhost:8080
+    description: Generated server url
+tags:
+  - name: Forecast
+    description: Forecast API
+  - name: Company
+    description: Company API
+paths:
+  /v1/forecast/{companyId}:
+    parameters:
+      - in: path
+        name: companyId
+        schema:
+          type: string
+          example: "da23b2ac-a487-11ed-a8fc-0242ac120002"
+        required: true
+        description: Company id
+    get:
+      tags:
+        - Forecast
+      summary: Get all forecasts by companyId
+      operationId: getForecasts
+      responses:
+        '200':
+          description: Get forecasts successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ForecastResp'
+        '400':
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /v1/forecast:
+    get:
+      tags:
+        - Forecast
+      summary: Get all forecasts
+      operationId: getAllForecasts
+      responses:
+        '200':
+          description: Get forecasts successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ForecastResp'
+        '400':
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /v1/forecast/{forecastId}/{companyId}/tree:
+    parameters:
+      - in: path
+        name: forecastId
+        schema:
+          type: string
+          example: "da23b2ac-a487-11ed-a8fc-0242ac120002"
+        required: true
+        description: Forecast Id
+      - in: path
+        name: companyId
+        schema:
+          type: string
+          example: "da23b2ac-a487-11ed-a8fc-0242ac120002"
+        required: true
+        description: Company id
+    get:
+      tags:
+        - Forecast
+      summary: Get forecasts tree
+      operationId: getForecastsTree
+      responses:
+        '200':
+          description: Get forecasts tree successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/IndicatorResp'
+        '400':
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+
+  /v1/companies/:
+    get:
+      tags:
+        - Company
+      summary: Get all companies.
+      operationId: getAllCompanies
+      responses:
+        '200':
+          description: Get companies successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CompanyResp'
+        '400':
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /v1/companies/{id}:
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          example: "da23b2ac-a487-11ed-a8fc-0242ac120002"
+        required: true
+        description: Company id
+    get:
+      tags:
+        - Company
+      summary: Get company by id.
+      operationId: getCompanyById
+      responses:
+        '200':
+          description: Get company successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CompanyResp'
+        '400':
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not fount by id
+
+    delete:
+      tags:
+        - Company
+      summary: Delete company by id.
+      operationId: deleteCompanyById
+      responses:
+        '200':
+          description: Company delted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Delete'
+
+        '404':
+          description: Not fount by id
+
+
+
+components:
+  schemas:
+    ForecastResp:
+      type: object
+      properties:
+        uuid:
+          type: string
+          maxLength: 100
+          example: "da23b2ac-a487-11ed-a8fc-0242ac120002"
+        name:
+          type: string
+          maxLength: 100
+          example: "Risk of enterprise bankruptcy"
+    IndicatorResp:
+      type: object
+      properties:
+        uuid:
+          type: string
+          maxLength: 100
+          example: "da23b2ac-a487-11ed-a8fc-0242ac120002"
+        type:
+          type: string
+          maxLength: 100
+          example: "Business processes"
+        name:
+          type: string
+          maxLength: 100
+          example: "Industrial"
+        indicators:
+          type: array
+          items:
+            $ref: '#/components/schemas/IndicatorResp'
+    CompanyResp:
+      type: object
+      properties:
+        uuid:
+          type: string
+          maxLength: 100
+          example: "da23b2ac-a487-11ed-a8fc-0242ac120002"
+        name:
+          type: string
+          maxLength: 100
+          example: "COMPANY NAME"
+        mainAddress:
+          $ref: '#/components/schemas/Address'
+    Address:
+      type: object
+      properties:
+        uuid:
+          type: string
+          maxLength: 100
+          example: "da23b2ac-a487-11ed-a8fc-0242ac120002"
+        country:
+          type: string
+          maxLength: 100
+          example: "Ukraine"
+        city:
+          type: string
+          maxLength: 100
+          example: "Cherkasy"
+        region:
+          type: string
+          maxLength: 100
+          example: "Cherkasy region"
+        village:
+          type: string
+          maxLength: 100
+          example: "Dubijiwka"
+        zip:
+          type: string
+          maxLength: 100
+          example: "18000"
+        street:
+          type: string
+          maxLength: 100
+          example: "Khreshchatyk"
+        building:
+          type: string
+          maxLength: 100
+          example: "221"
+        apartment:
+          type: string
+          maxLength: 100
+          example: "44"
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          example: 400
+        message:
+          type: string
+          example: "Validation error"
+    Delete:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: "da23b2ac-a487-11ed-a8fc-0242ac120002"
+

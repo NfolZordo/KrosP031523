@@ -1,0 +1,26 @@
+server:
+  port: ${SERVER_PORT:8081}
+
+spring:
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/data-manager-service}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:postgres}
+    driver-class-name: ${DB_DRIVER:org.postgresql.Driver}
+    sql-script-encoding: ${DB_ENCODING:UTF-8}
+
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:http://localhost:9092}
+    consumer:
+      group-id: survey_builder_service
+      auto-offset-reset: ${AUTO_OFFSET_RESET:earliest}
+
+  jackson:
+    serialization-inclusion: non_null
+
+    default-property-inclusion: non_null
+
+
+services:
+  url:
+    company-manager-service: ${COMPANY_MANAGER_SERVICE_URL:http://localhost:8082/api}

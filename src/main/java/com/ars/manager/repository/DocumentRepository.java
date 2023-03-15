@@ -1,0 +1,11 @@
+package com.ars.manager.repository;
+
+import com.ars.manager.domain.document.Document;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+
+public interface DocumentRepository extends JpaRepository<Document, Long> {
+
+    List<Document> findAllByCompanyUuid(String companyUuid);
+}

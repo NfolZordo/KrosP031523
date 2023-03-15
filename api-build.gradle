@@ -1,0 +1,24 @@
+import org.codehaus.groovy.runtime.GStringImpl
+
+ext {
+    openapiGenConfig = "${rootDir}/api/gen-config.yaml" as GStringImpl
+    openapiInputSpec = "${rootDir}/api/open-api.yaml" as GStringImpl
+    templateDirectory = "${rootDir}/api/custom-template" as GStringImpl
+}
+
+openApiValidate {
+    inputSpec = "$openapiInputSpec"
+}
+
+openApiGenerate {
+    inputSpec = "$openapiInputSpec"
+    outputDir = "$buildDir/generated"
+    configFile = "$openapiGenConfig"
+    templateDir = "$templateDirectory"
+}
+
+sourceSets.main {
+    java.srcDir("$buildDir/generated/src/main/java")
+}
+
+compileJava.dependsOn "openApiGenerate"
